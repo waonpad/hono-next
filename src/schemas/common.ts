@@ -15,7 +15,6 @@ export const errorSchema = z.object({
    * アプリ内で明示的に使用しているHttpエラーのステータスコードだけを許容する
    */
   status: constructZodLiteralUnionType(Object.values(AppErrorStatusCode).map((v) => formatToHttpStatusCode(v))),
-  timestamp: z.string().optional(),
 });
 
 /**
