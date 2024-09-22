@@ -5,6 +5,8 @@ import { z } from "zod";
 export const serverEnv = createEnv({
   server: {
     APP_ENV: z.enum(["development", "production", "test"]),
+    DB_PRISMA_URL: z.string().min(1),
+    DB_URL_NON_POOLING: z.string().min(1),
   },
   experimental__runtimeEnv: {},
 });
