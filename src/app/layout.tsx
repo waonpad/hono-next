@@ -5,8 +5,6 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import type { ReactNode } from "react";
 
-import "@/lib/zod";
-
 const intr = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
