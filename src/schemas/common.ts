@@ -56,10 +56,10 @@ export const paginationQuerySchema = z.object({
 });
 
 export const timestampSchema = z.object({
-  createdAt: z.string().openapi({
+  createdAt: z.string().datetime().openapi({
     example: "2024-05-22 13:51:19",
   }),
-  updatedAt: z.string().openapi({
+  updatedAt: z.string().datetime().openapi({
     example: "2024-05-22 13:51:19",
   }),
 });

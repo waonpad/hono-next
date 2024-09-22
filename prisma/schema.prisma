@@ -1,0 +1,19 @@
+generator client {
+  provider = "prisma-client-js"
+  previewFeatures = ["driverAdapters"]
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DB_PRISMA_URL")
+  directUrl = env("DB_URL_NON_POOLING")
+}
+
+model Post {
+  id      String   @id @default(cuid())
+  title   String
+  body    String
+  public  Boolean
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
