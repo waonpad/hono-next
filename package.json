@@ -6,7 +6,7 @@
     "prepare": "lefthook install",
     "setup": "$npm_execpath install && cp -n .env.example .env; exit 0",
     "dev": "next dev",
-    "build": "next build",
+    "build": "$npm_execpath run db:gen && next build",
     "start": "next start",
     "fmt": "biome format --write .",
     "lnt": "biome lint --write .",
