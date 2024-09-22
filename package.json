@@ -17,10 +17,12 @@
   },
   "dependencies": {
     "@t3-oss/env-nextjs": "^0.11.0",
+    "i18next": "^23.15.1",
     "next": "^15.0.0-canary.161",
     "react": "^19.0.0-rc-e4953922-20240919",
     "react-dom": "^19.0.0-rc-e4953922-20240919",
-    "zod": "^3.23.8"
+    "zod": "^3.23.8",
+    "zod-i18n-map": "^2.27.0"
   },
   "devDependencies": {
     "@biomejs/biome": "^1.8.3",

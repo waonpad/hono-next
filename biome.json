@@ -25,15 +25,19 @@
           "fix": "safe",
           "level": "error",
           "options": {}
+        },
+        "noRestrictedImports": {
+          "level": "error",
+          "options": {
+            "paths": {
+              "zod": "zodを直接importするのみだと日本語対応がされません。@/lib/zod を使用してください。"
+            }
+          }
         }
       }
     }
   },
   "files": {
-    "ignore": [
-      "**/node_modules/**",
-      "**/*.json",
-      ".next/**"
-    ]
+    "ignore": ["**/node_modules/**", "**/*.json", ".next/**"]
   }
 }
