@@ -1,7 +1,10 @@
 import { handle } from "hono/vercel"; // Edge 用
 
+import { AppErrorStatusCode, type HttpErrorStatusCode } from "@/config/status-code";
+import { errorResponse } from "@/lib/errors";
 import { customHono } from "@/lib/hono/custom";
 import { docs } from "@/lib/hono/openapi";
+import { HTTPException } from "hono/http-exception";
 import posts from "./_/posts";
 
 export const runtime = "edge"; // Edge 用
@@ -10,6 +13,27 @@ const app = customHono().basePath("/api");
 const route = app.route("/", posts);
 
 docs(app);
+
+/**
+ * 404エラー時の共通処理
+ */
+app.notFound((c) => {
+  return errorResponse(c, {
+    message: "Route not found",
+    status: AppErrorStatusCode.NOT_FOUND,
+  });
+});
+
+/**
+ * サーバーエラー時の共通処理
+ */
+app.onError((err, c) => {
+  return errorResponse(c, {
+    message: "Unexpected error",
+    status: err instanceof HTTPException ? (err.status as HttpErrorStatusCode) : AppErrorStatusCode.SERVER_ERROR,
+    err,
+  });
+});
 
 export type AppType = typeof route;
 
