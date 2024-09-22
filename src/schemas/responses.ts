@@ -13,13 +13,8 @@ type Responses = Parameters<typeof createRoute>[0]["responses"];
 export const responseWithPaginationSchema = <T extends z.ZodTypeAny>(schema: T) =>
   z.object({
     data: z.object({
-      items: schema.array().openapi({
-        description: "アイテムの配列",
-      }),
-      total: z.number().openapi({
-        description: "アイテムの総数",
-        example: 1,
-      }),
+      items: schema.array().openapi({ description: "アイテムの配列" }),
+      total: z.number().openapi({ description: "アイテムの総数", example: 1 }),
     }),
   });
 
