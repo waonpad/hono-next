@@ -1,4 +1,3 @@
-import { AppErrorStatusCode } from "@/config/status-code";
 import { createRouteConfig } from "@/lib/hono/route-config";
 import { errorResponses, responseWithPaginationSchema } from "@/schemas/responses";
 import { createPostRequest, getPostsQuery, postParam, postSchema, updatePostRequest } from "./schemas";
@@ -23,9 +22,7 @@ export const getPostsConfig = createRouteConfig({
       },
     },
     ...errorResponses({
-      validationErrorResnponseSchemas: {
-        [AppErrorStatusCode.BAD_REQUEST]: [getPostsQuery.validationErrorResponseSchema()],
-      },
+      validationErrorResnponseSchemas: [getPostsQuery.vErr()],
     }),
   },
 });
@@ -57,9 +54,7 @@ export const createPostConfig = createRouteConfig({
       },
     },
     ...errorResponses({
-      validationErrorResnponseSchemas: {
-        [AppErrorStatusCode.BAD_REQUEST]: [createPostRequest.validationErrorResponseSchema()],
-      },
+      validationErrorResnponseSchemas: [createPostRequest.vErr()],
     }),
   },
 });
@@ -92,12 +87,7 @@ export const updatePostConfig = createRouteConfig({
       },
     },
     ...errorResponses({
-      validationErrorResnponseSchemas: {
-        [AppErrorStatusCode.BAD_REQUEST]: [
-          postParam.validationErrorResponseSchema(),
-          updatePostRequest.validationErrorResponseSchema(),
-        ],
-      },
+      validationErrorResnponseSchemas: [postParam.vErr(), updatePostRequest.vErr()],
     }),
   },
 });
@@ -122,9 +112,7 @@ export const getPostByIdConfig = createRouteConfig({
       },
     },
     ...errorResponses({
-      validationErrorResnponseSchemas: {
-        [AppErrorStatusCode.BAD_REQUEST]: [postParam.validationErrorResponseSchema()],
-      },
+      validationErrorResnponseSchemas: [postParam.vErr()],
     }),
   },
 });
@@ -145,9 +133,7 @@ export const deletePostConfig = createRouteConfig({
       description: "No content",
     },
     ...errorResponses({
-      validationErrorResnponseSchemas: {
-        [AppErrorStatusCode.BAD_REQUEST]: [postParam.validationErrorResponseSchema()],
-      },
+      validationErrorResnponseSchemas: [postParam.vErr()],
     }),
   },
 });

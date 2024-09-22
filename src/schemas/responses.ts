@@ -29,12 +29,10 @@ export const responseWithPaginationSchema = <T extends z.ZodTypeAny>(schema: T) 
 export const errorResponses = ({
   validationErrorResnponseSchemas,
 }: {
-  validationErrorResnponseSchemas?: {
-    [AppErrorStatusCode.BAD_REQUEST]?: [
-      ReturnType<typeof createValidationErrorResponseSchema>,
-      ...ReturnType<typeof createValidationErrorResponseSchema>[],
-    ];
-  };
+  validationErrorResnponseSchemas?: [
+    ReturnType<typeof createValidationErrorResponseSchema>,
+    ...ReturnType<typeof createValidationErrorResponseSchema>[],
+  ];
 }) =>
   ({
     [AppErrorStatusCode.BAD_REQUEST]: {
@@ -42,7 +40,7 @@ export const errorResponses = ({
       content: {
         "application/json": {
           schema: (() => {
-            const schemas = validationErrorResnponseSchemas?.[AppErrorStatusCode.BAD_REQUEST];
+            const schemas = validationErrorResnponseSchemas;
 
             return schemas
               ? z.union([createErrorResponseSchema("BAD_REQUEST").openapi("BadRequestErrorResponse"), ...schemas])
