@@ -1,5 +1,5 @@
 import { AppErrorStatusCode, ErrorType, formatToHttpStatusCode } from "@/config/status-code";
-import { constructZodLiteralUnionType } from "@/lib/zod";
+import { zodLiteralUnionType } from "@/lib/zod";
 import { z } from "@hono/zod-openapi";
 import "@/lib/zod/i18n/ja";
 
@@ -14,7 +14,7 @@ export const errorSchema = z.object({
   /**
    * アプリ内で明示的に使用しているHttpエラーのステータスコードだけを許容する
    */
-  status: constructZodLiteralUnionType(Object.values(AppErrorStatusCode).map((v) => formatToHttpStatusCode(v))),
+  status: zodLiteralUnionType(Object.values(AppErrorStatusCode).map((v) => formatToHttpStatusCode(v))),
 });
 
 /**
