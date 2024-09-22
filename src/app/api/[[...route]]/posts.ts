@@ -1,6 +1,6 @@
+import { z } from "@/lib/zod";
 import { zValidator } from "@hono/zod-validator";
 import { Hono } from "hono";
-import { z } from "zod";
 
 export const postSchema = z.object({
   id: z.string(),
