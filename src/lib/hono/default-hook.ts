@@ -1,15 +1,13 @@
 import { AppErrorStatusCode, type ErrorType, formatToHttpStatusCode } from "@/config/status-code";
 import type { createValidationErrorResponseSchema } from "@/schemas/validation-error";
 import type { Hook } from "@hono/zod-openapi";
-// biome-ignore lint/nursery/noRestrictedImports: <explanation>
-import { ZodError } from "zod";
 import type { Env } from "./custom";
 
 /**
  * バリデーションエラーが発生した時のデフォルト処理
  */
 export const defaultHook: Hook<unknown, Env, "", unknown> = (result, c) => {
-  if (!result.success && result.error instanceof ZodError) {
+  if (!result.success) {
     const error = result.error;
 
     const { formErrors, fieldErrors } = error.flatten();
