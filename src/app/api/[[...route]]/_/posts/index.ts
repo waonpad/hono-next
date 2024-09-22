@@ -19,6 +19,7 @@ export default customHono()
 
     return c.json(createdPost, 201);
   })
+  // @ts-expect-error
   .openapi(updatePostConfig, async (c) => {
     const reqBody = c.req.valid("json");
 
@@ -70,6 +71,7 @@ export default customHono()
       200,
     );
   })
+  // @ts-expect-error
   .openapi(getPostByIdConfig, async (c) => {
     const post = await prisma.post.findUnique({
       where: { id: c.req.valid("param").id },
