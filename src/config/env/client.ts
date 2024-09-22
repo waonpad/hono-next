@@ -1,4 +1,5 @@
 import { createEnv } from "@t3-oss/env-nextjs";
+// biome-ignore lint/nursery/noRestrictedImports: <explanation>
 import { z } from "zod";
 
 export const clientEnv = createEnv({
