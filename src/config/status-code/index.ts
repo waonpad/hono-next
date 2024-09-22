@@ -1,5 +1,9 @@
 import { getEntries } from "@/utils";
-import type { StatusCode as HttpStatusCode } from "hono/utils/http-status";
+import type {
+  ClientErrorStatusCode,
+  StatusCode as HttpStatusCode,
+  ServerErrorStatusCode,
+} from "hono/utils/http-status";
 
 export const ErrorType = [
   "BAD_REQUEST",
@@ -12,12 +16,7 @@ export const ErrorType = [
 
 export type ErrorType = (typeof ErrorType)[number];
 
-export const HttpErrorStatusCode = [
-  400, 401, 402, 403, 404, 405, 406, 407, 408, 409, 410, 411, 412, 413, 414, 415, 416, 417, 418, 421, 422, 423, 424,
-  425, 426, 428, 429, 431, 451, 500, 501, 502, 503, 504, 505, 506, 507, 508, 510, 511,
-] as const;
-
-export type HttpErrorStatusCode = (typeof HttpErrorStatusCode)[number];
+export type HttpErrorStatusCode = ClientErrorStatusCode | ServerErrorStatusCode;
 
 /**
  * アプリケーション内で扱うエラータイプとそれに対応するステータスコードを管理する
@@ -38,8 +37,6 @@ export const AppErrorStatusCode = {
 } as const satisfies Record<ErrorType, number>;
 
 export type AppErrorStatusCode = (typeof AppErrorStatusCode)[keyof typeof AppErrorStatusCode];
-export type UsedHttpStatusCode = Extract<HttpStatusCode, AppErrorStatusCode>;
-export type UsedHttpErrorStatusCode = Extract<HttpErrorStatusCode, AppErrorStatusCode>;
 
 /**
  * アプリ内で扱うステータスコードとそれに対応するエラータイプを管理する
