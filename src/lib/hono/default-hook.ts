@@ -7,24 +7,28 @@ import type { Env } from "./custom";
  * バリデーションエラーが発生した時のデフォルト処理
  */
 export const defaultHook: Hook<unknown, Env, "", unknown> = (result, c) => {
-  if (!result.success) {
-    const error = result.error;
+  if (result.success) return;
 
-    const { formErrors, fieldErrors } = error.flatten();
+  // エラーをfflatenして取得
+  const { formErrors, fieldErrors } = result.error.flatten();
 
-    const errorType = "VALIDATION_ERROR" satisfies ErrorType;
+  // アプリケーション内でエラーの種類を識別するための文字列
+  const errorType = "VALIDATION_ERROR" satisfies ErrorType;
 
-    return c.json(
-      {
-        error: {
-          message: "バリデーションエラーが発生しました",
-          type: errorType,
-          status: formatToHttpStatusCode(AppErrorStatusCode[errorType]),
-          formErrors: formErrors[0],
-          fieldErrors: Object.fromEntries(Object.entries(fieldErrors).map(([key, value]) => [key, (value ?? [])[0]])),
-        },
-      } satisfies ReturnType<typeof createValidationErrorResponseSchema>["_type"],
-      400,
-    );
-  }
+  const status = formatToHttpStatusCode(AppErrorStatusCode[errorType]);
+
+  return c.json(
+    {
+      error: {
+        message: "バリデーションエラーが発生しました",
+        type: errorType,
+        status,
+        // フォーム全体に関するエラーメッセージ
+        formErrors: formErrors[0],
+        // flattenしたフィールド名とエラーメッセージのキーバリュー
+        fieldErrors: Object.fromEntries(Object.entries(fieldErrors).map(([key, value]) => [key, (value ?? [])[0]])),
+      },
+    } satisfies ReturnType<typeof createValidationErrorResponseSchema>["_type"],
+    status,
+  );
 };
