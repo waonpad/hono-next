@@ -33,13 +33,13 @@ export const docs = (app: OpenAPIHono<Env>) => {
 
   /**
    * luciaとGitHub OAuthによるセッションCookie
-   *
-   * NOTICE: ブラウザからのリクエストの場合、CookieはSwagger UIから送る事ができない事に注意
    */
   app.openAPIRegistry.registerComponent("securitySchemes", "authSession", {
     type: "apiKey",
     name: lucia.sessionCookieName,
     in: "cookie",
+    description:
+      "ブラウザからのリクエストの場合、CookieはSwagger UIから設定しても送る事ができない事に注意<br/>ブラウザに保存されたCookieが送信される",
   });
 };
 
