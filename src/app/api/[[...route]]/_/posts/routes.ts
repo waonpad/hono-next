@@ -2,13 +2,18 @@ import { jsonBody } from "@/lib/hono/openapi";
 import { errorResponses, responseWithPaginationSchema } from "@/schemas/responses";
 import { createRoute } from "@hono/zod-openapi";
 import { createPostRequest, getPostsQuery, postParam, postSchema, updatePostRequest } from "./schemas";
+
+const basePostsConfig = {
+  path: "/posts",
+  tags: ["posts"],
+};
+
 /**
  * 投稿一覧を取得するルート設定
  */
 export const getPostsConfig = createRoute({
+  ...basePostsConfig,
   method: "get",
-  path: "/posts",
-  tags: ["posts"],
   summary: "Get list of posts",
   request: {
     query: getPostsQuery.schema,
@@ -28,9 +33,8 @@ export const getPostsConfig = createRoute({
  * 投稿を作成するルート設定
  */
 export const createPostConfig = createRoute({
+  ...basePostsConfig,
   method: "post",
-  path: "/posts",
-  tags: ["posts"],
   summary: "Create a post",
   request: {
     body: {
@@ -52,9 +56,9 @@ export const createPostConfig = createRoute({
  * 投稿情報を更新するルート設定
  */
 export const updatePostConfig = createRoute({
+  ...basePostsConfig,
   method: "put",
-  path: "/posts/{id}",
-  tags: ["posts"],
+  path: `${basePostsConfig.path}/{id}`,
   summary: "Update a post",
   request: {
     params: postParam.schema,
@@ -77,9 +81,9 @@ export const updatePostConfig = createRoute({
  * 投稿の詳細情報を取得するルート設定
  */
 export const getPostByIdConfig = createRoute({
+  ...basePostsConfig,
   method: "get",
-  path: "/posts/{id}",
-  tags: ["posts"],
+  path: `${basePostsConfig.path}/{id}`,
   request: {
     params: postParam.schema,
   },
@@ -98,9 +102,9 @@ export const getPostByIdConfig = createRoute({
  * 投稿を削除するルート設定
  */
 export const deletePostConfig = createRoute({
+  ...basePostsConfig,
   method: "delete",
-  path: "/posts/{id}",
-  tags: ["posts"],
+  path: `${basePostsConfig.path}/{id}`,
   summary: "Delete a post",
   request: {
     params: postParam.schema,
