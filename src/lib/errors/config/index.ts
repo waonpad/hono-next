@@ -1,7 +1,5 @@
 import type { ClientErrorStatusCode, ServerErrorStatusCode } from "hono/utils/http-status";
 
-export type HttpErrorStatusCode = ClientErrorStatusCode | ServerErrorStatusCode;
-
 export const AppErrorType = [
   "BAD_REQUEST",
   "VALIDATION_ERROR",
@@ -24,4 +22,4 @@ export const AppErrorStatusCode = {
   NOT_FOUND: 404,
   SERVER_ERROR: 500,
   // 他のステータスコードも必要に応じて追加
-} as const satisfies Record<AppErrorType, HttpErrorStatusCode>;
+} as const satisfies Record<AppErrorType, ClientErrorStatusCode | ServerErrorStatusCode>;

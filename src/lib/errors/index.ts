@@ -1,5 +1,5 @@
-import { AppErrorStatusCode, type AppErrorType } from "@/config/status-code";
 import type { Context } from "hono";
+import { AppErrorStatusCode, type AppErrorType } from "./config";
 import type { errorResponseSchema } from "./schemas";
 
 /**

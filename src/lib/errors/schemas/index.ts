@@ -1,10 +1,10 @@
-import { AppErrorStatusCode, AppErrorType } from "@/config/status-code";
 import { zodLiteralUnionType } from "@/lib/zod";
 import { z } from "@hono/zod-openapi";
 import "@/lib/zod/i18n/ja";
 import { getKeys } from "@/utils/object";
 // biome-ignore lint/nursery/noRestrictedImports: <explanation>
 import type { AnyZodObject } from "zod";
+import { AppErrorStatusCode, AppErrorType } from "../config";
 
 /**
  * エラーレスポンスのスキーマ

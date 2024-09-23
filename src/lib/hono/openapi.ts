@@ -1,8 +1,8 @@
-import { AppErrorStatusCode } from "@/config/status-code";
 import { swaggerUI } from "@hono/swagger-ui";
 import type { OpenAPIHono, createRoute } from "@hono/zod-openapi";
 import { z } from "@hono/zod-openapi";
 import "@/lib/zod/i18n/ja";
+import { AppErrorStatusCode } from "../errors/config";
 import { createErrorResponseSchema } from "../errors/schemas";
 import type { createValidationErrorResponseSchema } from "../errors/schemas";
 

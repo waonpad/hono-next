@@ -1,5 +1,5 @@
-import { AppErrorStatusCode, type AppErrorType } from "@/config/status-code";
 import type { Hook } from "@hono/zod-openapi";
+import { AppErrorStatusCode, type AppErrorType } from "../errors/config";
 import type { createValidationErrorResponseSchema } from "../errors/schemas";
 import type { Env } from "./custom";
 
