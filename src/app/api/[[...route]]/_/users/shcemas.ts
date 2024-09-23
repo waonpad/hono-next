@@ -9,6 +9,7 @@ export const userSchema = z
   .object({
     id: z.string().openapi({ example: "hOn012drizZle34aP1" }),
     name: z.string().min(2).max(100).openapi({ example: "John Doe" }),
+    githubId: z.number().int().openapi({ example: 123456 }),
   })
   .merge(timestampSchema)
   .openapi("User");
