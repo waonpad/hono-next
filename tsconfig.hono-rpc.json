@@ -1,5 +1,5 @@
 {
-  // HonoのRPCは非常に重いため、ルートの型を事前に吐く事で高速に利用するためのtsconfig
+  // HonoのRPCの型推論は非常に重いため、ルートの型を事前に吐く事で高速に利用するためのtsconfig
   "extends": "./tsconfig.json",
   "compilerOptions": {
     "outDir": "types/hono-rpc",
