@@ -1,10 +1,40 @@
-import { AppErrorStatusCode, type ErrorType, formatToHttpStatusCode } from "@/config/status-code";
-import { errorResponseSchema } from "@/schemas/common";
+import { zodLiteralUnionType } from "@/lib/zod";
 import { z } from "@hono/zod-openapi";
 import "@/lib/zod/i18n/ja";
-import { getKeys } from "@/utils";
+import { getKeys } from "@/utils/object";
 // biome-ignore lint/nursery/noRestrictedImports: <explanation>
 import type { AnyZodObject } from "zod";
+import { AppErrorStatusCode, AppErrorType } from "../config";
+
+/**
+ * エラーレスポンスのスキーマ
+ */
+export const errorResponseSchema = z.object({
+  error: z.object({
+    message: z.string(),
+    type: z.enum(AppErrorType),
+    /**
+     * アプリ内で明示的に使用しているHttpエラーのステータスコードだけを許容する
+     */
+    status: zodLiteralUnionType(Object.values(AppErrorStatusCode)),
+  }),
+});
+
+/**
+ * エラーレスポンスのスキーマを生成する
+ */
+export const createErrorResponseSchema = (type: typeof errorResponseSchema.shape.error._type.type) => {
+  return errorResponseSchema.merge(
+    z.object({
+      error: errorResponseSchema.shape.error.merge(
+        z.object({
+          status: z.literal(AppErrorStatusCode[type]),
+          type: z.literal(type),
+        }),
+      ),
+    }),
+  );
+};
 
 /**
  * あるスキーマに対応するバリデーションエラーレスポンスのスキーマを生成する
@@ -18,7 +48,7 @@ export const createValidationErrorResponseSchema = <T extends AnyZodObject>(sche
   const fieldErrorSchemas = Object.fromEntries(keys.map((k) => [k, z.string().optional()]));
 
   // アプリケーション内でエラーの種類を識別するための文字列
-  const errorType = "VALIDATION_ERROR" satisfies ErrorType;
+  const errorType = "VALIDATION_ERROR" satisfies AppErrorType;
 
   // 通常のエラーの情報も持つため、スキーマをマージする
   return errorResponseSchema.merge(
@@ -27,7 +57,7 @@ export const createValidationErrorResponseSchema = <T extends AnyZodObject>(sche
         z.object({
           // バリデーションエラー時のtypeとstatusは一意に固定する
           type: z.literal(errorType),
-          status: z.literal(formatToHttpStatusCode(AppErrorStatusCode[errorType])),
+          status: z.literal(AppErrorStatusCode[errorType]),
           // フォーム全体に関するエラーメッセージ
           formErrors: z.string(),
           // flattenしたフィールドごとのエラーメッセージ

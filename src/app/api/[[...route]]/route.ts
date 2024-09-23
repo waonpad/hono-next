@@ -1,10 +1,8 @@
 import { handle } from "hono/vercel";
 
-import { AppErrorStatusCode, type HttpErrorStatusCode } from "@/config/status-code";
 import { errorResponse } from "@/lib/errors";
 import { customHono } from "@/lib/hono/custom";
 import { docs } from "@/lib/hono/openapi";
-import { HTTPException } from "hono/http-exception";
 import posts from "./_/posts";
 
 const app = customHono().basePath("/api");
@@ -17,8 +15,8 @@ docs(app);
  */
 app.notFound((c) => {
   return errorResponse(c, {
+    type: "NOT_FOUND",
     message: "Route not found",
-    status: AppErrorStatusCode.NOT_FOUND,
   });
 });
 
@@ -27,8 +25,8 @@ app.notFound((c) => {
  */
 app.onError((err, c) => {
   return errorResponse(c, {
+    type: "SERVER_ERROR",
     message: "Unexpected error",
-    status: err instanceof HTTPException ? (err.status as HttpErrorStatusCode) : AppErrorStatusCode.SERVER_ERROR,
     err,
   });
 });

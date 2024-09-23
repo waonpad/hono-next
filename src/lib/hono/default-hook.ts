@@ -1,6 +1,6 @@
-import { AppErrorStatusCode, type ErrorType, formatToHttpStatusCode } from "@/config/status-code";
-import type { createValidationErrorResponseSchema } from "@/schemas/validation-error";
 import type { Hook } from "@hono/zod-openapi";
+import { AppErrorStatusCode, type AppErrorType } from "../errors/config";
+import type { createValidationErrorResponseSchema } from "../errors/schemas";
 import type { Env } from "./custom";
 
 /**
@@ -13,9 +13,9 @@ export const defaultHook: Hook<unknown, Env, "", unknown> = (result, c) => {
   const { formErrors, fieldErrors } = result.error.flatten();
 
   // アプリケーション内でエラーの種類を識別するための文字列
-  const errorType = "VALIDATION_ERROR" satisfies ErrorType;
+  const errorType = "VALIDATION_ERROR" satisfies AppErrorType;
 
-  const status = formatToHttpStatusCode(AppErrorStatusCode[errorType]);
+  const status = AppErrorStatusCode[errorType];
 
   return c.json(
     {

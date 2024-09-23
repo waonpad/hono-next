@@ -1,11 +1,9 @@
-import "@/styles/globals.css";
+import "./globals.css";
 import { clientEnv } from "@/config/env/client";
 import { AppProvider } from "@/providers/app-provider";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import type { ReactNode } from "react";
-
-import "@/lib/zod";
 
 const intr = Inter({ subsets: ["latin"] });
 
