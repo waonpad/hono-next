@@ -1,5 +1,10 @@
+import { AppErrorStatusCode } from "@/config/status-code";
+import { createErrorResponseSchema } from "@/schemas/common";
+import type { createValidationErrorResponseSchema } from "@/schemas/validation-error";
 import { swaggerUI } from "@hono/swagger-ui";
 import type { OpenAPIHono, createRoute } from "@hono/zod-openapi";
+import { z } from "@hono/zod-openapi";
+import "@/lib/zod/i18n/ja";
 
 const SPEC_PATH = "/spec" as const;
 
@@ -25,6 +30,9 @@ export const docs = (app: OpenAPIHono) => {
     .get("/doc", swaggerUI({ url: `/api${SPEC_PATH}` }));
 };
 
+/**
+ * application/json形式のスキーマは頻出なため、毎回書かなくてもいいようにする関数
+ */
 export const jsonBody = <
   T extends
     | NonNullable<
@@ -44,3 +52,45 @@ export const jsonBody = <
     },
   };
 };
+
+/**
+ * エラーレスポンスのOpen API用の定義
+ */
+export const errorResponses = ({
+  validationErrorResnponseSchemas,
+}: {
+  validationErrorResnponseSchemas?: [
+    ReturnType<typeof createValidationErrorResponseSchema>,
+    ...ReturnType<typeof createValidationErrorResponseSchema>[],
+  ];
+}) =>
+  ({
+    [AppErrorStatusCode.BAD_REQUEST]: {
+      description: "Bad request: problem processing request.",
+      content: jsonBody(
+        (() => {
+          const baseSchema = createErrorResponseSchema("BAD_REQUEST").openapi("BadRequestErrorResponse");
+
+          const schemas = validationErrorResnponseSchemas;
+
+          return schemas ? z.union([baseSchema, ...schemas]) : baseSchema;
+        })(),
+      ),
+    },
+    [AppErrorStatusCode.UNAUTHORIZED]: {
+      description: "Unauthorized: authentication required.",
+      content: jsonBody(createErrorResponseSchema("UNAUTHORIZED").openapi("UnauthorizedErrorResponse")),
+    },
+    [AppErrorStatusCode.FORBIDDEN]: {
+      description: "Forbidden: insufficient permissions.",
+      content: jsonBody(createErrorResponseSchema("FORBIDDEN").openapi("ForbiddenErrorResponse")),
+    },
+    [AppErrorStatusCode.NOT_FOUND]: {
+      description: "Not found: resource does not exist.",
+      content: jsonBody(createErrorResponseSchema("NOT_FOUND").openapi("NotFoundErrorResponse")),
+    },
+    [AppErrorStatusCode.SERVER_ERROR]: {
+      description: "Server error: something went wrong.",
+      content: jsonBody(createErrorResponseSchema("SERVER_ERROR").openapi("ServerErrorResponse")),
+    },
+  }) satisfies Parameters<typeof createRoute>[0]["responses"];

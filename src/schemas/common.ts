@@ -3,25 +3,23 @@ import { zodLiteralUnionType } from "@/lib/zod";
 import { z } from "@hono/zod-openapi";
 import "@/lib/zod/i18n/ja";
 
-export const errorTypeSchema = z.enum(AppErrorType);
-
-/**
- * エラーオブジェクトのスキーマ
- */
-export const errorSchema = z.object({
-  message: z.string(),
-  type: errorTypeSchema,
-  /**
-   * アプリ内で明示的に使用しているHttpエラーのステータスコードだけを許容する
-   */
-  status: zodLiteralUnionType(Object.values(AppErrorStatusCode)),
-});
-
 /**
  * エラーレスポンスのスキーマ
  */
-export const errorResponseSchema = z.object({ error: errorSchema });
+export const errorResponseSchema = z.object({
+  error: z.object({
+    message: z.string(),
+    type: z.enum(AppErrorType),
+    /**
+     * アプリ内で明示的に使用しているHttpエラーのステータスコードだけを許容する
+     */
+    status: zodLiteralUnionType(Object.values(AppErrorStatusCode)),
+  }),
+});
 
+/**
+ * エラーレスポンスのスキーマを生成する
+ */
 export const createErrorResponseSchema = (type: typeof errorResponseSchema.shape.error._type.type) => {
   return errorResponseSchema.merge(
     z.object({
@@ -53,6 +51,17 @@ export const paginationQuerySchema = z.object({
     description: "取得するアイテムの数",
   }),
 });
+
+/**
+ * ページネーション情報を含むレスポンスのスキーマ
+ */
+export const responseWithPaginationSchema = <T extends z.ZodTypeAny>(schema: T) =>
+  z.object({
+    data: z.object({
+      items: schema.array().openapi({ description: "アイテムの配列" }),
+      total: z.number().openapi({ description: "アイテムの総数", example: 1 }),
+    }),
+  });
 
 export const timestampSchema = z.object({
   createdAt: z.string().datetime().openapi({
