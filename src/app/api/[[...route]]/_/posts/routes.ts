@@ -1,3 +1,4 @@
+import { authGuard } from "@/lib/hono/middlewares/guard/auth";
 import { errorResponses, jsonBody } from "@/lib/hono/openapi";
 import { responseWithPaginationSchema } from "@/utils/schemas";
 import { createRoute } from "@hono/zod-openapi";
@@ -35,6 +36,8 @@ export const getPostsConfig = createRoute({
 export const createPostConfig = createRoute({
   ...basePostsConfig,
   method: "post",
+  middleware: [authGuard()],
+  security: [{ authSession: [] }],
   summary: "Create a post",
   request: {
     body: {
@@ -59,6 +62,8 @@ export const updatePostConfig = createRoute({
   ...basePostsConfig,
   method: "put",
   path: `${basePostsConfig.path}/{id}`,
+  middleware: [authGuard()],
+  security: [{ authSession: [] }],
   summary: "Update a post",
   request: {
     params: postParam.schema,
@@ -105,6 +110,8 @@ export const deletePostConfig = createRoute({
   ...basePostsConfig,
   method: "delete",
   path: `${basePostsConfig.path}/{id}`,
+  middleware: [authGuard()],
+  security: [{ authSession: [] }],
   summary: "Delete a post",
   request: {
     params: postParam.schema,
