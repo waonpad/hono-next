@@ -1,7 +1,7 @@
-import { paginationQuerySchema, timestampSchema } from "@/schemas/common";
-import { createValidationErrorResponseSchema } from "@/schemas/validation-error";
+import { paginationQuerySchema, timestampSchema } from "@/utils/schemas";
 import { z } from "@hono/zod-openapi";
 import "@/lib/zod/i18n/ja";
+import { createValidationErrorResponseSchema } from "@/lib/errors/schemas";
 
 /**
  * 投稿のスキーマ

@@ -1,10 +1,10 @@
 import { AppErrorStatusCode } from "@/config/status-code";
-import { createErrorResponseSchema } from "@/schemas/common";
-import type { createValidationErrorResponseSchema } from "@/schemas/validation-error";
 import { swaggerUI } from "@hono/swagger-ui";
 import type { OpenAPIHono, createRoute } from "@hono/zod-openapi";
 import { z } from "@hono/zod-openapi";
 import "@/lib/zod/i18n/ja";
+import { createErrorResponseSchema } from "../errors/schemas";
+import type { createValidationErrorResponseSchema } from "../errors/schemas";
 
 const SPEC_PATH = "/spec" as const;
 

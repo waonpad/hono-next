@@ -1,5 +1,5 @@
 import { errorResponses, jsonBody } from "@/lib/hono/openapi";
-import { responseWithPaginationSchema } from "@/schemas/common";
+import { responseWithPaginationSchema } from "@/utils/schemas";
 import { createRoute } from "@hono/zod-openapi";
 import { createPostRequest, getPostsQuery, postParam, postSchema, updatePostRequest } from "./schemas";
 

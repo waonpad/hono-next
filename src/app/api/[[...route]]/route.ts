@@ -1,6 +1,5 @@
 import { handle } from "hono/vercel";
 
-import {} from "@/config/status-code";
 import { errorResponse } from "@/lib/errors";
 import { customHono } from "@/lib/hono/custom";
 import { docs } from "@/lib/hono/openapi";

@@ -1,4 +1,4 @@
-import "@/styles/globals.css";
+import "./globals.css";
 import { clientEnv } from "@/config/env/client";
 import { AppProvider } from "@/providers/app-provider";
 import type { Metadata } from "next";
