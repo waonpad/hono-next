@@ -5,7 +5,7 @@ import { createRoute } from "@hono/zod-openapi";
 import { getUsersQuery, updateUserRequest, userParam, userSchema } from "./shcemas";
 
 const baseUsersConfig = {
-  path: "/users",
+  path: "/users" as const,
   tags: ["users"],
 };
 
