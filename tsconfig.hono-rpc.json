@@ -1,0 +1,11 @@
+{
+  // HonoのRPCは非常に重いため、ルートの型を事前に吐く事で高速に利用するためのtsconfig
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "outDir": "types/hono-rpc",
+    "emitDeclarationOnly": true,
+    "declaration": true,
+    "noEmit": false
+  },
+  "include": ["src/app/api/[[...route]]/route.ts"]
+}

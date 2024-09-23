@@ -39,6 +39,6 @@
     }
   },
   "files": {
-    "ignore": ["**/node_modules/**", "**/*.json", ".next/**"]
+    "ignore": ["**/node_modules/**", "**/*.json", ".next/**", "types/**"]
   }
 }

@@ -20,7 +20,8 @@
     "db:gen": "npx prisma generate",
     "db:studio": "npx prisma studio",
     "db:reset": "npx prisma migrate reset",
-    "db:seed": "bun run prisma/seed.ts"
+    "db:seed": "bun run prisma/seed.ts",
+    "type:hono-rpc": "tsc -p tsconfig.hono-rpc.json"
   },
   "dependencies": {
     "@hono/swagger-ui": "^0.4.1",

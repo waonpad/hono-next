@@ -2,6 +2,8 @@ import { client } from "@/lib/hono/client";
 import { CreatePost } from "./_components/create-post";
 import { PostListItem } from "./_components/post-list-item";
 
+export const dynamic = "force-dynamic";
+
 export default async function Page() {
   const res = await client.api.posts.$get({
     query: {
