@@ -1,4 +1,4 @@
-import { AppErrorStatusCode, type ErrorType, formatToHttpStatusCode } from "@/config/status-code";
+import { AppErrorStatusCode, type ErrorType } from "@/config/status-code";
 import { errorResponseSchema } from "@/schemas/common";
 import { z } from "@hono/zod-openapi";
 import "@/lib/zod/i18n/ja";
@@ -27,7 +27,7 @@ export const createValidationErrorResponseSchema = <T extends AnyZodObject>(sche
         z.object({
           // バリデーションエラー時のtypeとstatusは一意に固定する
           type: z.literal(errorType),
-          status: z.literal(formatToHttpStatusCode(AppErrorStatusCode[errorType])),
+          status: z.literal(AppErrorStatusCode[errorType]),
           // フォーム全体に関するエラーメッセージ
           formErrors: z.string(),
           // flattenしたフィールドごとのエラーメッセージ
