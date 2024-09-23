@@ -1,3 +1,4 @@
+import { clientEnv } from "@/config/env/client";
 import { lucia } from "@/lib/auth";
 import { cors } from "hono/cors";
 import { csrf } from "hono/csrf";
@@ -13,7 +14,8 @@ app.use("*", secureHeaders());
 app.use(
   "*",
   cors({
-    origin: "*", // TODO: 実際にはフロントエンドのURLだけにする
+    // origin: "*",
+    origin: clientEnv.NEXT_PUBLIC_HOST_URL,
     credentials: true,
     allowMethods: ["GET", "HEAD", "PUT", "POST", "DELETE", "PATCH", "OPTIONS"],
     allowHeaders: [],
@@ -24,7 +26,8 @@ app.use(
 app.use(
   "*",
   csrf({
-    origin: "*", // TODO: 実際にはフロントエンドのURLだけにする
+    // origin: "*",
+    origin: clientEnv.NEXT_PUBLIC_HOST_URL,
   }),
 );
 
