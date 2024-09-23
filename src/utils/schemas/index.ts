@@ -9,13 +9,13 @@ export const paginationQuerySchema = z.object({
   sort: z.enum(["createdAt"]).default("createdAt").optional().openapi({
     description: "ソートするフィールド",
   }),
-  order: z.enum(["asc", "desc"]).default("asc").optional().openapi({
+  order: z.enum(["asc", "desc"]).default("desc").optional().openapi({
     description: "ソート順",
   }),
   offset: z.coerce.number().default(0).openapi({
     description: "取得するアイテムのオフセット",
   }),
-  limit: z.coerce.number().default(50).openapi({
+  limit: z.coerce.number().default(20).openapi({
     description: "取得するアイテムの数",
   }),
 });
