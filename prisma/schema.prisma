@@ -8,6 +8,16 @@ datasource db {
   directUrl = env("DB_URL_NON_POOLING")
 }
 
+model User {
+  id       String   @id @default(cuid())
+  email    String   @unique
+  password String
+  name     String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  posts    Post[]
+}
+
 model Post {
   id      String   @id @default(cuid())
   title   String
@@ -15,4 +25,6 @@ model Post {
   public  Boolean
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+  authorId String
+  author  User     @relation(fields: [authorId], references: [id])
 }
