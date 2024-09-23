@@ -1,9 +1,9 @@
-import { AppErrorStatusCode, ErrorType } from "@/config/status-code";
+import { AppErrorStatusCode, AppErrorType } from "@/config/status-code";
 import { zodLiteralUnionType } from "@/lib/zod";
 import { z } from "@hono/zod-openapi";
 import "@/lib/zod/i18n/ja";
 
-export const errorTypeSchema = z.enum(ErrorType);
+export const errorTypeSchema = z.enum(AppErrorType);
 
 /**
  * エラーオブジェクトのスキーマ

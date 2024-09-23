@@ -1,3 +1,4 @@
+import { jsonBody } from "@/lib/hono/openapi";
 import { errorResponses, responseWithPaginationSchema } from "@/schemas/responses";
 import { createRoute } from "@hono/zod-openapi";
 import { createPostRequest, getPostsQuery, postParam, postSchema, updatePostRequest } from "./schemas";
@@ -15,11 +16,7 @@ export const getPostsConfig = createRoute({
   responses: {
     200: {
       description: "Posts",
-      content: {
-        "application/json": {
-          schema: responseWithPaginationSchema(postSchema),
-        },
-      },
+      content: jsonBody(responseWithPaginationSchema(postSchema)),
     },
     ...errorResponses({
       validationErrorResnponseSchemas: [getPostsQuery.vErr()],
@@ -37,21 +34,13 @@ export const createPostConfig = createRoute({
   summary: "Create a post",
   request: {
     body: {
-      content: {
-        "application/json": {
-          schema: createPostRequest.schema,
-        },
-      },
+      content: jsonBody(createPostRequest.schema),
     },
   },
   responses: {
     201: {
       description: "Post",
-      content: {
-        "application/json": {
-          schema: postSchema,
-        },
-      },
+      content: jsonBody(postSchema),
     },
     ...errorResponses({
       validationErrorResnponseSchemas: [createPostRequest.vErr()],
@@ -70,21 +59,13 @@ export const updatePostConfig = createRoute({
   request: {
     params: postParam.schema,
     body: {
-      content: {
-        "application/json": {
-          schema: updatePostRequest.schema,
-        },
-      },
+      content: jsonBody(updatePostRequest.schema),
     },
   },
   responses: {
     200: {
       description: "Post",
-      content: {
-        "application/json": {
-          schema: postSchema,
-        },
-      },
+      content: jsonBody(postSchema),
     },
     ...errorResponses({
       validationErrorResnponseSchemas: [postParam.vErr(), updatePostRequest.vErr()],
@@ -105,11 +86,7 @@ export const getPostByIdConfig = createRoute({
   responses: {
     200: {
       description: "Post",
-      content: {
-        "application/json": {
-          schema: postSchema,
-        },
-      },
+      content: jsonBody(postSchema),
     },
     ...errorResponses({
       validationErrorResnponseSchemas: [postParam.vErr()],
@@ -129,9 +106,7 @@ export const deletePostConfig = createRoute({
     params: postParam.schema,
   },
   responses: {
-    204: {
-      description: "No content",
-    },
+    204: { description: "No content" },
     ...errorResponses({
       validationErrorResnponseSchemas: [postParam.vErr()],
     }),

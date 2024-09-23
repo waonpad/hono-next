@@ -1,5 +1,5 @@
 import { swaggerUI } from "@hono/swagger-ui";
-import type { OpenAPIHono } from "@hono/zod-openapi";
+import type { OpenAPIHono, createRoute } from "@hono/zod-openapi";
 
 const SPEC_PATH = "/spec" as const;
 
@@ -23,4 +23,24 @@ export const docs = (app: OpenAPIHono) => {
      * Swagger UI
      */
     .get("/doc", swaggerUI({ url: `/api${SPEC_PATH}` }));
+};
+
+export const jsonBody = <
+  T extends
+    | NonNullable<
+        NonNullable<Parameters<typeof createRoute>[0]["responses"][number]["content"]>["application/json"]
+      >["schema"]
+    | NonNullable<
+        NonNullable<
+          NonNullable<NonNullable<Parameters<typeof createRoute>[0]["request"]>["body"]>["content"]
+        >["application/json"]
+      >["schema"],
+>(
+  schema: T,
+) => {
+  return {
+    "application/json": {
+      schema: schema,
+    },
+  };
 };

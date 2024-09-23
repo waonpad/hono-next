@@ -1,7 +1,7 @@
-import { AppErrorStatusCode } from "@/config/status-code";
+import { AppErrorStatusCode, type AppErrorType } from "@/config/status-code";
 import type { Context } from "hono";
 
-export const errorResponse = <ErrorType extends keyof typeof AppErrorStatusCode>(
+export const errorResponse = <ErrorType extends AppErrorType>(
   c: Context,
   {
     message,
