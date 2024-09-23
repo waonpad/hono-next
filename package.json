@@ -16,6 +16,7 @@
     "test:ci": "vitest run --silent",
     "db:fmt": "npx prisma format",
     "db:mig": "npx prisma migrate dev",
+    "db:mig:prod": "npx prisma migrate deploy",
     "db:gen": "npx prisma generate",
     "db:studio": "npx prisma studio",
     "db:reset": "npx prisma migrate reset",
