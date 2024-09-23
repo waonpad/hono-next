@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 
 export const metadata: Metadata = {
   alternates: {
@@ -10,6 +11,7 @@ export default async function Page() {
   return (
     <div>
       <h1>/</h1>
+      <Link href="/api/auth/login/github">Login with GitHub</Link>
     </div>
   );
 }

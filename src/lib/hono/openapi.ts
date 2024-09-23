@@ -2,16 +2,18 @@ import { swaggerUI } from "@hono/swagger-ui";
 import type { OpenAPIHono, createRoute } from "@hono/zod-openapi";
 import { z } from "@hono/zod-openapi";
 import "@/lib/zod/i18n/ja";
+import { lucia } from "../auth";
 import { AppErrorStatusCode } from "../errors/config";
 import { createErrorResponseSchema } from "../errors/schemas";
 import type { createValidationErrorResponseSchema } from "../errors/schemas";
+import type { Env } from "./custom";
 
 const SPEC_PATH = "/spec" as const;
 
 /**
  * Open APIドキュメント関連の設定
  */
-export const docs = (app: OpenAPIHono) => {
+export const docs = (app: OpenAPIHono<Env>) => {
   app
     /**
      * ドキュメントそのもの
@@ -28,6 +30,17 @@ export const docs = (app: OpenAPIHono) => {
      * Swagger UI
      */
     .get("/doc", swaggerUI({ url: `/api${SPEC_PATH}` }));
+
+  /**
+   * luciaとGitHub OAuthによるセッションCookie
+   *
+   * NOTICE: ブラウザからのリクエストの場合、CookieはSwagger UIから送る事ができない事に注意
+   */
+  app.openAPIRegistry.registerComponent("securitySchemes", "authSession", {
+    type: "apiKey",
+    name: lucia.sessionCookieName,
+    in: "cookie",
+  });
 };
 
 /**
