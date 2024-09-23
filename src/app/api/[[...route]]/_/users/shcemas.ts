@@ -47,10 +47,3 @@ export const userParam = {
   schema: z.object({ id: userSchema.shape.id }).openapi("UserParam"),
   vErr: () => createValidationErrorResponseSchema(userParam.schema).openapi("UserParamValidationErrorResponse"),
 };
-
-export const userPasswordSchema = z
-  .string()
-  .min(8)
-  .max(100)
-  .openapi({ example: "password123" })
-  .openapi("UserPassword");
