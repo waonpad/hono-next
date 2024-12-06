@@ -1,7 +1,7 @@
 import { client } from "@/lib/hono/client";
 
-export default async function Page({ params }: { params: { id: string } }) {
-  const res = await client.api.posts[":id"].$get({ param: { id: params.id } });
+export default async function Page(props: { params: Promise<{ id: string }> }) {
+  const res = await client.api.posts[":id"].$get({ param: { id: (await props.params).id } });
 
   if (!res.ok) {
     const error = await res.json();
