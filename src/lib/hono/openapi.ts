@@ -2,6 +2,7 @@ import { swaggerUI } from "@hono/swagger-ui";
 import type { OpenAPIHono, createRoute } from "@hono/zod-openapi";
 import { z } from "@hono/zod-openapi";
 import "@/lib/zod/i18n/ja";
+import type { ResponseConfig } from "@asteasolutions/zod-to-openapi/dist/openapi-registry.js";
 import { lucia } from "../auth";
 import { AppErrorStatusCode } from "../errors/config";
 import { createErrorResponseSchema } from "../errors/schemas";
@@ -48,9 +49,7 @@ export const docs = (app: OpenAPIHono<Env>) => {
  */
 export const jsonBody = <
   T extends
-    | NonNullable<
-        NonNullable<Parameters<typeof createRoute>[0]["responses"][number]["content"]>["application/json"]
-      >["schema"]
+    | NonNullable<NonNullable<ResponseConfig["content"]>["application/json"]>["schema"]
     | NonNullable<
         NonNullable<
           NonNullable<NonNullable<Parameters<typeof createRoute>[0]["request"]>["body"]>["content"]
