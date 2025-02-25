@@ -7,7 +7,7 @@ import { getUserByIdRouteConfig, getUsersConfig, meRouteConfig, updateUserConfig
 export default customHono()
   .openapi(meRouteConfig, async (c) => {
     const user = await prisma.user.findUnique({
-      where: { id: c.get("user")!.id },
+      where: { id: c.get("user")?.id },
     });
 
     if (!user) {

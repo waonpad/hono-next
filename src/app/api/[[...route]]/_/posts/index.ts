@@ -13,7 +13,7 @@ export default customHono()
         title: reqBody.title,
         body: reqBody.body,
         public: reqBody.public,
-        authorId: c.get("user")!.id,
+        authorId: c.get("user")?.id,
       },
     });
 
@@ -24,7 +24,7 @@ export default customHono()
 
     try {
       const updatedPost = await prisma.post.update({
-        where: { id: c.req.valid("param").id, authorId: c.get("user")!.id },
+        where: { id: c.req.valid("param").id, authorId: c.get("user")?.id },
         data: {
           title: reqBody.title,
           body: reqBody.body,
@@ -87,7 +87,7 @@ export default customHono()
   .openapi(deletePostConfig, async (c) => {
     try {
       await prisma.post.delete({
-        where: { id: c.req.valid("param").id, authorId: c.get("user")!.id },
+        where: { id: c.req.valid("param").id, authorId: c.get("user")?.id },
       });
 
       // nextがステータスコード204を返すとエラーになるのでResponseを返す
