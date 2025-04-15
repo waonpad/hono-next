@@ -11,8 +11,6 @@ export const CreatePost = () => {
   const [body, setBody] = useState("");
 
   const handleSubmit = async () => {
-    throw new DOMException("テスト", "NotReadableError");
-    
     const res = await client.api.posts.$post({
       json: { title, body, public: true },
     });
