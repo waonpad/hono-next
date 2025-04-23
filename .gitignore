@@ -1,5 +1,8 @@
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
+# 一時的に生成された型を無視
+/types
+
 # dependencies
 /node_modules
 /.pnp

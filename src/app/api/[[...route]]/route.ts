@@ -1,13 +1,24 @@
-import { handle } from "hono/vercel";
-
 import { errorResponse } from "@/lib/errors";
 import { customHono } from "@/lib/hono/custom";
+import { middlewares } from "@/lib/hono/middlewares";
 import { docs } from "@/lib/hono/openapi";
+import { handle } from "hono/vercel";
+import auth from "./_/auth";
 import posts from "./_/posts";
+import users from "./_/users";
 
 const app = customHono().basePath("/api");
-const route = app.route("/", posts);
 
+/**
+ * 全てのルートに共通のミドルウェアを適用
+ */
+app.route("", middlewares);
+
+const route = app.route("/", posts).route("/", users).route("/", auth);
+
+/**
+ * Open APIドキュメントのエンドポイントを登録
+ */
 docs(app);
 
 /**

@@ -11,14 +11,7 @@
   "exclude": [
     "node_modules",
     "src/testing/**/*",
-    "src/**/__tests__/**/*",
-    "src/**/__mocks__/**/*",
-    "src/**/__stories__/**/*",
-    "**/*.spec.ts",
-    "**/*.spec.tsx",
     "**/*.test.ts",
     "**/*.test.tsx",
-    "**/*.stories.tsx",
-    "**/*.stories.ts"
   ]
 }

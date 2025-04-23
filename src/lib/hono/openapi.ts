@@ -2,16 +2,19 @@ import { swaggerUI } from "@hono/swagger-ui";
 import type { OpenAPIHono, createRoute } from "@hono/zod-openapi";
 import { z } from "@hono/zod-openapi";
 import "@/lib/zod/i18n/ja";
+import type { ResponseConfig } from "@asteasolutions/zod-to-openapi/dist/openapi-registry.js";
+import { lucia } from "../auth";
 import { AppErrorStatusCode } from "../errors/config";
 import { createErrorResponseSchema } from "../errors/schemas";
 import type { createValidationErrorResponseSchema } from "../errors/schemas";
+import type { Env } from "./custom";
 
 const SPEC_PATH = "/spec" as const;
 
 /**
  * Open APIドキュメント関連の設定
  */
-export const docs = (app: OpenAPIHono) => {
+export const docs = (app: OpenAPIHono<Env>) => {
   app
     /**
      * ドキュメントそのもの
@@ -28,6 +31,17 @@ export const docs = (app: OpenAPIHono) => {
      * Swagger UI
      */
     .get("/doc", swaggerUI({ url: `/api${SPEC_PATH}` }));
+
+  /**
+   * luciaとGitHub OAuthによるセッションCookie
+   */
+  app.openAPIRegistry.registerComponent("securitySchemes", "authSession", {
+    type: "apiKey",
+    name: lucia.sessionCookieName,
+    in: "cookie",
+    description:
+      "ブラウザからのリクエストの場合、CookieはSwagger UIから設定しても送る事ができない事に注意<br/>ブラウザに保存されたCookieが送信される",
+  });
 };
 
 /**
@@ -35,9 +49,7 @@ export const docs = (app: OpenAPIHono) => {
  */
 export const jsonBody = <
   T extends
-    | NonNullable<
-        NonNullable<Parameters<typeof createRoute>[0]["responses"][number]["content"]>["application/json"]
-      >["schema"]
+    | NonNullable<NonNullable<ResponseConfig["content"]>["application/json"]>["schema"]
     | NonNullable<
         NonNullable<
           NonNullable<NonNullable<Parameters<typeof createRoute>[0]["request"]>["body"]>["content"]

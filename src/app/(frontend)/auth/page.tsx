@@ -1,19 +1,14 @@
-import type { Metadata } from "next";
 import Link from "next/link";
-
-export const metadata: Metadata = {
-  alternates: {
-    canonical: "/",
-  },
-};
+import { Logout } from "./_components/logout";
 
 export default async function Page() {
   return (
     <div>
-      <h1>/</h1>
+      <h1>auth</h1>
       <Link href="/api/auth/login/github" prefetch={false}>
         Login with GitHub
       </Link>
+      <Logout />
     </div>
   );
 }

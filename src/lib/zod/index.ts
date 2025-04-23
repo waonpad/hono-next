@@ -1,4 +1,3 @@
-// biome-ignore lint/nursery/noRestrictedImports: <explanation>
 import { type Primitive, z } from "zod";
 
 export { z } from "./i18n/ja";
