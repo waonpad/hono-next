@@ -1,4 +1,3 @@
-import { AppErrorStatusCode } from "@/config/status-code";
 import { errorResponse } from "@/lib/errors";
 import { customHono } from "@/lib/hono/custom";
 import { prisma } from "@/lib/prisma/client";
@@ -14,18 +13,18 @@ export default customHono()
         title: reqBody.title,
         body: reqBody.body,
         public: reqBody.public,
+        authorId: c.get("user")!.id,
       },
     });
 
     return c.json(createdPost, 201);
   })
-  // @ts-expect-error
   .openapi(updatePostConfig, async (c) => {
     const reqBody = c.req.valid("json");
 
     try {
       const updatedPost = await prisma.post.update({
-        where: { id: c.req.valid("param").id },
+        where: { id: c.req.valid("param").id, authorId: c.get("user")!.id },
         data: {
           title: reqBody.title,
           body: reqBody.body,
@@ -37,9 +36,9 @@ export default customHono()
     } catch (e) {
       if (e instanceof PrismaClientKnownRequestError && e.code === "P2025") {
         return errorResponse(c, {
-          status: AppErrorStatusCode.NOT_FOUND,
+          type: "NOT_FOUND",
           message: "更新対象の投稿が見つかりませんでした。",
-        } as const);
+        });
       }
 
       throw e;
@@ -71,7 +70,6 @@ export default customHono()
       200,
     );
   })
-  // @ts-expect-error
   .openapi(getPostByIdConfig, async (c) => {
     const post = await prisma.post.findUnique({
       where: { id: c.req.valid("param").id },
@@ -79,9 +77,9 @@ export default customHono()
 
     if (!post) {
       return errorResponse(c, {
-        status: AppErrorStatusCode.NOT_FOUND,
+        type: "NOT_FOUND",
         message: "投稿が見つかりませんでした。",
-      } as const);
+      });
     }
 
     return c.json(post, 200);
@@ -89,7 +87,7 @@ export default customHono()
   .openapi(deletePostConfig, async (c) => {
     try {
       await prisma.post.delete({
-        where: { id: c.req.valid("param").id },
+        where: { id: c.req.valid("param").id, authorId: c.get("user")!.id },
       });
 
       // nextがステータスコード204を返すとエラーになるのでResponseを返す
@@ -97,9 +95,9 @@ export default customHono()
     } catch (e) {
       if (e instanceof PrismaClientKnownRequestError && e.code === "P2025") {
         return errorResponse(c, {
-          status: AppErrorStatusCode.NOT_FOUND,
+          type: "NOT_FOUND",
           message: "削除対象の投稿が見つかりませんでした。",
-        } as const);
+        });
       }
 
       throw e;

@@ -18,7 +18,13 @@
       }
     ],
     "paths": {
-      "@/*": ["./src/*"]
+      "@/*": ["./src/*"],
+      "@hono-rpc/*": [
+        // tsconfig.hono-rpc.jsonによって型が生成されていたらそれによって高速に型情報を利用できる
+        "./types/hono-rpc/app/api/[[...route]]/*",
+        // なければ実装元のファイルを参照する
+        "./src/app/api/[[...route]]/*"
+      ]
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],

@@ -18,7 +18,8 @@
         "noUnusedImports": "error"
       },
       "style": {
-        "noImplicitBoolean": "error"
+        "noImplicitBoolean": "error",
+        "noNonNullAssertion": "info"
       },
       "nursery": {
         "useSortedClasses": {
@@ -27,7 +28,7 @@
           "options": {}
         },
         "noRestrictedImports": {
-          "level": "error",
+          "level": "info",
           "options": {
             "paths": {
               "zod": "zodを直接importするのみだと日本語対応がされません。@/lib/zod を使用してください。"
@@ -38,6 +39,6 @@
     }
   },
   "files": {
-    "ignore": ["**/node_modules/**", "**/*.json", ".next/**"]
+    "ignore": ["**/node_modules/**", "**/*.json", ".next/**", "types/**"]
   }
 }

@@ -1,7 +1,8 @@
-import { paginationQuerySchema, timestampSchema } from "@/schemas/common";
-import { createValidationErrorResponseSchema } from "@/schemas/validation-error";
+import { paginationQuerySchema, timestampSchema } from "@/utils/schemas";
 import { z } from "@hono/zod-openapi";
 import "@/lib/zod/i18n/ja";
+import { createValidationErrorResponseSchema } from "@/lib/errors/schemas";
+import { userSchema } from "../users/shcemas";
 
 /**
  * 投稿のスキーマ
@@ -12,6 +13,7 @@ export const postSchema = z
     title: z.string().min(1).max(100).openapi({ example: "HonoDrizzle" }),
     body: z.string().min(1).openapi({ example: "Post body" }),
     public: z.boolean().openapi({ example: true }),
+    authorId: userSchema.shape.id,
   })
   .merge(timestampSchema)
   .openapi("Post");
