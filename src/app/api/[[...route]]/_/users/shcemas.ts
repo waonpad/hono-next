@@ -9,6 +9,7 @@ export const userSchema = z
   .object({
     id: z.string().openapi({ example: "hOn012drizZle34aP1" }),
     name: z.string().min(2).max(100).openapi({ example: "John Doe" }),
+    githubId: z.number().int().openapi({ example: 123456 }),
   })
   .merge(timestampSchema)
   .openapi("User");
@@ -47,10 +48,3 @@ export const userParam = {
   schema: z.object({ id: userSchema.shape.id }).openapi("UserParam"),
   vErr: () => createValidationErrorResponseSchema(userParam.schema).openapi("UserParamValidationErrorResponse"),
 };
-
-export const userPasswordSchema = z
-  .string()
-  .min(8)
-  .max(100)
-  .openapi({ example: "password123" })
-  .openapi("UserPassword");

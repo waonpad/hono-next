@@ -5,7 +5,7 @@ import { createRoute } from "@hono/zod-openapi";
 import { createPostRequest, getPostsQuery, postParam, postSchema, updatePostRequest } from "./schemas";
 
 const basePostsConfig = {
-  path: "/posts",
+  path: "/posts" as const,
   tags: ["posts"],
 };
 
