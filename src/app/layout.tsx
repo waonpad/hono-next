@@ -1,13 +1,7 @@
-import "@/styles/globals.css";
+import "./globals.css";
 import { clientEnv } from "@/config/env/client";
-import { AppProvider } from "@/providers/app-provider";
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
 import type { ReactNode } from "react";
-
-import "@/lib/zod";
-
-const intr = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: {
@@ -21,9 +15,7 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="ja">
-      <body className={`${intr.className}`}>
-        <AppProvider>{children}</AppProvider>
-      </body>
+      <body>{children}</body>
     </html>
   );
 }
